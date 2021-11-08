@@ -34,7 +34,7 @@ initialize_db()
 
 
 @app.route('/search/<topic>')
-def hello_world(topic):
+def search(topic):
     # get books with the specified topic
     books = session.query(Book).\
         join(Topic, Topic.id == Book.topic_id).\
