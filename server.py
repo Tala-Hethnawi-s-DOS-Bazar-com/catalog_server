@@ -51,3 +51,24 @@ def search(topic):
     # print response before sending it
     pprint(response)
     return jsonify(response)
+
+
+@app.route('/info/<book_id>')
+def info(book_id):
+    # get the book with the requested id
+    book = session.query(Book).\
+        filter(Book.id == book_id).one_or_none()
+    # check if book exists
+    if book:
+        response = {
+            "title": book.title,
+            "quantity": book.quantity,
+            "price": book.price
+        }
+        # print response before sending it
+        pprint(response)
+        return jsonify(response)
+    else:
+        # return no book found error if book does not exist
+        print("No book was found")
+        return jsonify({"error": "No book found."})
