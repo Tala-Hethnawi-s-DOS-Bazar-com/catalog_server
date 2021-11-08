@@ -12,7 +12,7 @@ class Book(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
-    in_stock_count = Column(Integer, default=0, nullable=False)
+    quantity = Column(Integer, default=0, nullable=False)
     price = Column(Float, default=0.0, nullable=False)
     topic_id = Column(Integer, ForeignKey('topic.id'))
     topic = relationship('Topic', backref='books')
