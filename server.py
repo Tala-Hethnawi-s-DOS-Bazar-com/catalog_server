@@ -1,4 +1,6 @@
-from flask import Flask
+from pprint import pprint
+from flask import Flask, jsonify
+
 from models import Book, Topic
 from utils import session
 
@@ -31,6 +33,21 @@ def initialize_db():
 initialize_db()
 
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+@app.route('/search/<topic>')
+def hello_world(topic):
+    # get books with the specified topic
+    books = session.query(Book).\
+        join(Topic, Topic.id == Book.topic_id).\
+        filter(Topic.name.ilike(topic)).all()
+    # format response
+    response = []
+    for book in books:
+        book_dict = {
+            "id": book.id,
+            "name": book.name
+        }
+        response.append(book_dict)
+
+    # print response before sending it
+    pprint(response)
+    return jsonify(response)
