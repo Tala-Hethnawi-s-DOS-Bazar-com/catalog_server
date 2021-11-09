@@ -33,7 +33,7 @@ def initialize_db():
 initialize_db()
 
 
-@app.route('/search/<topic>')
+@app.route('/search/<topic>', methods=["GET"])
 def search(topic):
     # get books with the specified topic
     books = session.query(Book).\
@@ -53,7 +53,7 @@ def search(topic):
     return jsonify(response)
 
 
-@app.route('/info/<book_id>')
+@app.route('/info/<book_id>', methods=["GET"])
 def info(book_id):
     # get the book with the requested id
     book = session.query(Book).\
@@ -68,6 +68,26 @@ def info(book_id):
         # print response before sending it
         pprint(response)
         return jsonify(response)
+    else:
+        # return no book found error if book does not exist
+        print("No book was found")
+        return jsonify({"error": "No book found."})
+
+
+@app.route('/update_quantity/<book_id>', methods=["PUT"])
+def update_quantity(book_id):
+    # get the book with the requested id
+    book = session.query(Book).\
+        filter(Book.id == book_id).one_or_none()
+    # check if book exists
+    if book:
+        # check if book available in stock
+        if book.quantity:
+            book.quantity = book.quantity - 1
+            session.commit()
+            return jsonify({"message": "Book quantity updated successfully"})
+        else:
+            return jsonify({"error": "Book quantity is zero!"}), 400
     else:
         # return no book found error if book does not exist
         print("No book was found")
