@@ -2,8 +2,6 @@
 
 #### This repo is part of Lab 1: Bazar.com: A Multi-tier Online Book Store
 
-Note: This server runs on port 8000
-
 To run it please do the following:
 
 1- Make sure you have vagrant and virtualbox installed
