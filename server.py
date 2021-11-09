@@ -1,5 +1,5 @@
 from pprint import pprint
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 from models import Book, Topic
 from utils import session
@@ -74,20 +74,20 @@ def info(book_id):
         return jsonify({"error": "No book found."})
 
 
-@app.route('/update_quantity/<book_id>', methods=["PUT"])
-def update_quantity(book_id):
+@app.route('/update/<book_id>', methods=["PUT"])
+def update(book_id):
     # get the book with the requested id
+    request_body = request.json
     book = session.query(Book).\
         filter(Book.id == book_id).one_or_none()
     # check if book exists
     if book:
-        # check if book available in stock
-        if book.quantity:
-            book.quantity = book.quantity - 1
-            session.commit()
-            return jsonify({"message": "Book quantity updated successfully"})
-        else:
-            return jsonify({"error": "Book quantity is zero!"}), 400
+        book = session.query(Book). \
+            filter(Book.id == book_id).\
+            update(request_body)
+        session.commit()
+        return jsonify({"message": "Book updated successfully"})
+
     else:
         # return no book found error if book does not exist
         print("No book was found")
