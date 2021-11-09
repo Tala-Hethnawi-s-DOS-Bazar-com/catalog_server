@@ -15,11 +15,10 @@ Vagrant.configure("2") do |config|
 
  # Every Vagrant development environment requires a box. You can search for
  # boxes at https://vagrantcloud.com/search.
- config.vm.network "public_network", ip: "192.168.50.10"
+ config.vm.network "private_network", ip: "192.168.50.10"
 
  config.vm.provider "virtualbox" do |vb|
-   vb.gui = true
-   vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+   vb.gui = false
  end
 
  config.vm.provision "shell", inline: <<-SHELL
