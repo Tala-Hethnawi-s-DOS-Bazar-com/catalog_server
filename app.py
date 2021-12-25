@@ -21,14 +21,20 @@ def initialize_db():
         session.commit()
 
         # Creating books
-        book_1 = Book(title="How to get a good grade in DOS in 40 minutes a day", price=10.99, quantity=3,
+        book_1 = Book(title="How to get a good grade in DOS in 40 minutes a day", price=10.99, quantity=15,
                       topic_id=distributed_systems.id)
-        book_2 = Book(title="RPCs for Noobs", price=15.0, quantity=2, topic_id=distributed_systems.id)
+        book_2 = Book(title="RPCs for Noobs", price=15.0, quantity=20, topic_id=distributed_systems.id)
         book_3 = Book(title="Xen and the Art of Surviving Undergraduate School", price=5.0, quantity=10,
                       topic_id=undergraduate_school.id)
         book_4 = Book(title="Cooking for the Impatient Undergrad", price=8.5, quantity=15,
                       topic_id=undergraduate_school.id)
-        session.add_all([book_1, book_2, book_3, book_4])
+        book_5 = Book(title="How to finish project 3 on time", price=8, quantity=15,
+                      topic_id=distributed_systems.id)
+        book_6 = Book(title="Why theory classes are so hard", price=9, quantity=20,
+                      topic_id=undergraduate_school.id)
+        book_7 = Book(title="Spring in pioneer valley", price=10, quantity=20,
+                      topic_id=distributed_systems.id)
+        session.add_all([book_1, book_2, book_3, book_4, book_5, book_6, book_7])
         session.commit()
 
 
