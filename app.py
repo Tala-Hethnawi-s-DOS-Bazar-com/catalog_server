@@ -92,3 +92,7 @@ def update(book_id):
         # return no book found error if book does not exist
         print("No book was found")
         return jsonify({"error": "No book found."})
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
