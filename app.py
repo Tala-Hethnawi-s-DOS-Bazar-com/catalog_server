@@ -1,6 +1,7 @@
 from pprint import pprint
 from flask import Flask, jsonify, request
 
+from cache_service import CacheService
 from models import Book, Topic
 from utils import session
 
@@ -85,6 +86,7 @@ def update(book_id):
         book = session.query(Book). \
             filter(Book.id == book_id).\
             update(request_body)
+        CacheService().remove_book_cache(book_id=book_id)
         session.commit()
         return jsonify({"message": "Book updated successfully"})
 
