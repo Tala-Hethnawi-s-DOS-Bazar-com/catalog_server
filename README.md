@@ -9,5 +9,5 @@ To run it please do the following:
 2 - Make sure you have your network set up (docker network create --subnet=172.18.0.0/16 bazar)
 3- Within the repo directory run these commands in your terminal:
 * docker build --tag catalog-server .
-* docker run --net bazar --ip 172.18.0.20 catalog-server
-* docker run --net bazar --ip 172.18.0.21 catalog-server
+* docker run --net bazar --ip 172.18.0.20 -e SERVER_IP=172.18.0.20 catalog-server
+* docker run --net bazar --ip 172.18.0.21 -e SERVER_IP=172.18.0.21 catalog-server

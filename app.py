@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request
 
 from cache_service import CacheService
 from models import Book, Topic
+from replica_sync_service import ReplicaSyncService
 from utils import session
 
 app = Flask(__name__)
@@ -88,12 +89,23 @@ def update(book_id):
             update(request_body)
         CacheService().remove_book_cache(book_id=book_id)
         session.commit()
+        ReplicaSyncService().sync_book(book_id=book_id, request_data=request_body)
         return jsonify({"message": "Book updated successfully"})
 
     else:
         # return no book found error if book does not exist
         print("No book was found")
         return jsonify({"error": "No book found."})
+
+
+@app.route('/sync/<book_id>', methods=["POST"])
+def sync(book_id):
+    request_body = request.json
+    session.query(Book). \
+        filter(Book.id == book_id). \
+        update(request_body)
+    session.commit()
+    return jsonify({"message": "success"})
 
 
 if __name__ == '__main__':
